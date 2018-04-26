@@ -17,9 +17,8 @@
 		<div class="row">
 			
 			<div class="col-md-12">
-				
-				<center>
-					<form action="/agregarUsuario" method="POST">
+
+					<form action="/agregarUsuario" class="" method="POST">
 						{{ csrf_field() }}
 
 						<label>Rut usuario</label>
@@ -44,10 +43,9 @@
 						<input type="email" name="email" class="form-control" required>
 						<br>
 						<br>
-						<button type="submit" class="btn btn-info">Agregar usuario</button>
+						<button type="submit" class="btn btn-primary">Agregar usuario</button>
 
 					</form>
-				</center>
 
 			</div>
 

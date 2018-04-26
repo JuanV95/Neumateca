@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AgregarUsuarioRequest extends FormRequest
+class AgregarNeumaticoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,19 +25,21 @@ class AgregarUsuarioRequest extends FormRequest
     {
         return [
 
-            'rutUsuario' => 'required',
+            'ancho' => 'required',
 
-            'nombreUsuario' => 'required',
+            'perfil' => 'required',
 
-            'nickName' => 'required',
+            'aro' => 'required',
 
-            'clave' => 'required',
+            'idMarcaNeumatico' => 'required',
 
-            'celular' => 'required',
+            'idSucursal' => 'required',
 
-            'direccion' => 'required',
+            'precioVenta' => 'required',
 
-            'email' => 'required'        
+            'estado' => 'required', 
+
+            'stock' => 'required'        
         ];
     }
 }

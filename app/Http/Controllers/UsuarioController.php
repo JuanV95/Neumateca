@@ -43,16 +43,6 @@ class UsuarioController extends Controller
 
     }
 
-    public function eliminarUsuario(Usuario $usuario){
-
-        $usuario -> delete();
-
-        session()->flash('mensaje', 'Usuario eliminado correctamente');
-
-        return redirect('/mantenedorUsuario');
-
-    }
-
     public function editarUsuario(Usuario $usuario, AgregarUsuarioRequest $request){
 
         $usuario -> rutUsuario = $request -> rutUsuario;
@@ -66,6 +56,16 @@ class UsuarioController extends Controller
         $usuario -> save();
 
         return redirect('/mantenedorUsuario');
+    }
+
+    public function eliminarUsuario(Usuario $usuario){
+
+        $usuario -> delete();
+
+        session()->flash('mensaje', 'Usuario eliminado correctamente');
+
+        return redirect('/mantenedorUsuario');
+
     }
 
 }

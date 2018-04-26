@@ -9,41 +9,41 @@
 		
 	</small>
 
-	@foreach($usuarios as $usuario)
+	<table class="table">
+	    <thead>
+		    <tr>
+		      <th scope="col">Rut Usuario</th>
+		      <th scope="col">Nombre Usuario</th>
+		      <th scope="col">Celular</th>
+		      <th scope="col">Direccion</th>
+		      <th scope="col">email</th>
+		    </tr>
+	    </thead>
 
-		<div class="row">
-					
-			<div class="col-md-12">
-				
-				<h2>
+		@foreach($usuarios as $usuario)
 
-					{{$usuario->nombreUsuario}}
+		 <tbody>
+		    <tr>
+		      <td>{{$usuario->rutUsuario}}</td>
+		      <td>{{$usuario->nombreUsuario}}</td>
+		      <td>{{$usuario->celular}}</td>
+		      <td>{{$usuario->direccion}}</td>
+		      <td>{{$usuario->email}}</td>
+		      <td><a href="{{route('editarUsuario_path', ['usuario' => $usuario->id])}}" class="btn btn-info">Editar</a>
+		      	<form action="{{ route('eliminarUsuario_path', ['usuario' => $usuario->id]) }}" method="POST">
 
-					<small class="pull-right">
-						
-						<a href="{{route('editarUsuario_path', ['usuario' => $usuario->id])}}" class="btn btn-info">Editar</a>
-						<form action="{{ route('eliminarUsuario_path', ['usuario' => $usuario->id]) }}" method="POST">
+					{{csrf_field()}}
+					{{method_field('DELETE')}}
 
-							{{csrf_field()}}
-							{{method_field('DELETE')}}
+					<button type="submit" class="btn btn-danger">Eliminar</button>
 
-							<button type="submit" class="btn btn-danger">Eliminar</button>
+				</form></td>
+		    </tr>
+		  </tbody>
 
-						</form>
+		@endforeach
 
-					</small>
-
-				</h2>
-
-				<p>{{$usuario->direccion}}</p>
-
-			</div>
-
-		</div>
-
-		<hr>
-
-	@endforeach
+	</table>
 
 	{{$usuarios->render()}}
 	
