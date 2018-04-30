@@ -4,10 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Usuario;
+use App\Neumatico;
+use App\Repuesto;
 use App\Http\Requests\AgregarUsuarioRequest;
 
 class UsuarioController extends Controller
 {
+    public function vistaAdministrador(){
+
+        $usuarios = Usuario::orderBy('id','desc')->paginate(10);
+        $neumaticos = Neumatico::orderBy('id','desc')->paginate(10);
+        $repuestos = Repuesto::orderBy('id','desc')->paginate(10);
+
+        return view('administrador/menuAdministrador')->with(['usuarios' => $usuarios, 'neumaticos' => $neumaticos, 'repuestos' => $repuestos]);
+    }
+
+    public function vistaIndex(){
+
+        return view('index');
+    }
+
 	public function vistaAgregar(){
 
 		return view('usuario/agregarUsuario');
@@ -16,13 +32,6 @@ class UsuarioController extends Controller
     public function vistaEditar(Usuario $usuario){
 
         return view('usuario/editarUsuario') -> with(['usuario' => $usuario]);
-    }
-
-	public function listaUsuarios(){
-
-    	$usuarios = Usuario::orderBy('id','desc')->paginate(10);
-
-    	return view('usuario/mantenedorUsuario')->with(['usuarios' => $usuarios]);
     }
 
     public function crear(Request $request){
@@ -39,7 +48,9 @@ class UsuarioController extends Controller
 
     	$usuario -> save();
 
-    	return redirect('/mantenedorUsuario');
+        session()->flash('usuario');
+
+    	return redirect('/menuAdmin');
 
     }
 
@@ -55,6 +66,8 @@ class UsuarioController extends Controller
 
         $usuario -> save();
 
+        session()->flash('usuario');
+
         return redirect('/mantenedorUsuario');
     }
 
@@ -62,9 +75,9 @@ class UsuarioController extends Controller
 
         $usuario -> delete();
 
-        session()->flash('mensaje', 'Usuario eliminado correctamente');
+        session()->flash('usuario');
 
-        return redirect('/mantenedorUsuario');
+        return redirect('/menuAdmin');
 
     }
 

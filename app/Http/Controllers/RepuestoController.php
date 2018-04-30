@@ -18,13 +18,6 @@ class RepuestoController extends Controller
         return view('repuesto/editarRepuesto') -> with(['repuesto' => $repuesto]);
     }
 
-    public function listaRepuestos(){
-
-    	$repuestos = Repuesto::orderBy('id','desc')->paginate(10);
-
-    	return view('repuesto/mantenedorRepuesto')->with(['repuestos' => $repuestos]);
-    }
-
 	public function crear(Request $request){
 
     	$repuesto = new Repuesto();
@@ -40,7 +33,9 @@ class RepuestoController extends Controller
 
     	$repuesto -> save();
 
-    	return redirect('/mantenedorRepuesto');
+        session()->flash('repuesto');
+
+    	return redirect('/menuAdmin');
 	}
 
 	public function editarRepuesto(Repuesto $repuesto, AgregarRepuestoRequest $request){
@@ -56,16 +51,18 @@ class RepuestoController extends Controller
 
     	$repuesto -> save();
 
-    	return redirect('/mantenedorRepuesto');
+        session()->flash('repuesto');
+
+    	return redirect('/menuAdmin');
     }
 
     public function eliminarRepuesto(Repuesto $repuesto){
 
         $repuesto -> delete();
 
-        session()->flash('mensaje', 'Repuesto eliminado correctamente');
+        session()->flash('repuesto');
 
-        return redirect('/mantenedorRepuesto');
+        return redirect('/menuAdmin');
 
     }
 }

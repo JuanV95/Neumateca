@@ -18,13 +18,6 @@ class NeumaticoController extends Controller
         return view('neumatico/editarNeumatico') -> with(['neumatico' => $neumatico]);
     }
 
-    public function listaNeumaticos(){
-
-    	$neumaticos = Neumatico::orderBy('ancho','desc')->paginate(10);
-
-    	return view('neumatico/mantenedorNeumatico')->with(['neumaticos' => $neumaticos]);
-    }
-
 	public function crear(Request $request){
 
     	$neumatico = new Neumatico();
@@ -40,7 +33,9 @@ class NeumaticoController extends Controller
 
     	$neumatico -> save();
 
-    	return redirect('/mantenedorNeumatico');
+        session()->flash('neumatico');
+
+    	return redirect('/menuAdmin');
 
     }
 
@@ -57,16 +52,18 @@ class NeumaticoController extends Controller
 
     	$neumatico -> save();
 
-    	return redirect('/mantenedorNeumatico');
+        session()->flash('neumatico');
+
+    	return redirect('/menuAdmin');
     }
 
     public function eliminarNeumatico(Neumatico $neumatico){
 
         $neumatico -> delete();
 
-        session()->flash('mensaje', 'Neumatico eliminado correctamente');
+        session()->flash('neumatico');
 
-        return redirect('/mantenedorNeumatico');
+        return redirect('/menuAdmin');
 
     }
 }
