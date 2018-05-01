@@ -27,8 +27,8 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-right navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-		      <li><a href="{{route('menuAdministrador_path')}}">Iniciar Sesion</a></li>
-          <li><a href="contact.html">Registrarse</a></li>
+		      <li><a class="nav-link" data-toggle="modal" data-target="#exampleModal">Iniciar Sesion</a></li>
+          <li><a class="nav-link" data-toggle="modal" data-target="#exampleModal2">Registrarse</a></li>
         </ul>
       </div>
       <!-- /.navbar-collapse --> 
@@ -99,6 +99,78 @@
     <hr></hr>
     <p class="text-center">&copy; Copyright ABC Company. All Rights Reserved.</p>
   </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Iniciar sesion</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form action="/validarUsuario" method="POST">
+                {{ csrf_field() }}
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Nombre de usuario</label>
+                  <input class="form-control" name="usuario" aria-describedby="emailHelp" placeholder="Enter email"required>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Contraseña</label>
+                  <input class="form-control" name="clave" type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Iniciar sesion</a>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Registro</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form action="/registrarUsuario" method="POST">
+                {{ csrf_field() }}
+
+                <div class="form-group">
+                      <label>Rut usuario</label>
+                      <input type="text" name="rutUsuario" class="form-control" placeholder="Ingrese su rut" required>
+                      <br>
+                      <label>Nombre del usuario</label>
+                      <input type="text" name="nombreUsuario" class="form-control" placeholder="Ingrese su nombre" required>
+                      <br>
+                      <label>NickName del usuario</label>
+                      <input type="text" name="nickName" class="form-control" placeholder="Ingrese su nombre de usuario" required>
+                      <br>
+                      <label>Clave del usuario</label>
+                      <input type="password" name="clave" class="form-control" placeholder="Ingrese su contraseña" required>
+                      <br>
+                      <label>Celular del usuario</label>
+                      <input type="number" name="celular" class="form-control" placeholder="Ingrese su celular" required>
+                      <br>
+                      <label>Direccion del usuario</label>
+                      <input type="text" name="direccion" class="form-control" placeholder="Ingrese su direccion" required>
+                      <br>
+                      <label>Email del usuario</label>
+                      <input type="email" name="email" class="form-control" placeholder="Ingrese su email" required>
+                      <br>
+                      <br>
+                      <button type="submit" class="btn btn-primary btn-block">Registrar</a>      
+                </div>
+              </form>   
+          </div>
+        </div>
+      </div>
+    </div>
+
 </footer>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 

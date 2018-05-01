@@ -12,8 +12,10 @@
 */
 
 Route::name('index_path')->get('/','UsuarioController@vistaIndex');
+Route::post('/registrarUsuario','Auth\LoginController@registrarUsuario');
 
 /*Rutas Usuario*/
+Route::post('/validarUsuario','UsuarioController@validarUsuario');
 Route::name('menuAdministrador_path')->get('/menuAdmin','UsuarioController@vistaAdministrador');
 Route::name('agregarUsuario_path')->get('/mantenedorUsuario/agregarUsuario','UsuarioController@vistaAgregar');
 Route::post('/agregarUsuario','UsuarioController@crear');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Usuario;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -35,5 +37,23 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function registrarUsuario(Request $request){
+
+        $usuario = new Usuario();
+
+        $usuario -> rutUsuario = $request -> rutUsuario;
+        $usuario -> nombreUsuario = $request -> nombreUsuario;
+        $usuario -> nickName = $request -> nickName;
+        $usuario -> clave = $request -> clave;
+        $usuario -> celular = $request -> celular;
+        $usuario -> direccion = $request -> direccion;
+        $usuario -> email = $request -> email;
+
+        $usuario -> save();
+
+        return view('index');
+
     }
 }

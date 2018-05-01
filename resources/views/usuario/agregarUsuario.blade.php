@@ -18,7 +18,7 @@
 			
 			<div class="col-md-12">
 
-					<form action="/agregarUsuario" class="" method="POST">
+					<form action="/registrarUsuario" class="" method="POST">
 						{{ csrf_field() }}
 
 						<label>Rut usuario</label>
