@@ -113,12 +113,19 @@
               <form action="/validarUsuario" method="POST">
                 {{ csrf_field() }}
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Nombre de usuario</label>
+                  <label>Nombre de usuario</label>
                   <input class="form-control" name="usuario" aria-describedby="emailHelp" placeholder="Enter email"required>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">Contraseña</label>
+                  <label>Contraseña</label>
                   <input class="form-control" name="clave" type="password" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                  <label>Sucursal</label>
+                  <select class="form-control" placeholder="Sucursal" name="sucursal">
+                    <option value="neumateca">Neumateca</option>
+                    <option value="neumateca2">Neumateca2</option>
+                  </select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Iniciar sesion</a>
               </form>

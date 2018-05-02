@@ -53,7 +53,7 @@ class LoginController extends Controller
 
         $usuario -> save();
 
-        return view('index');
+        return redirect('/');
 
     }
 }

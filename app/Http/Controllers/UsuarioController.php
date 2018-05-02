@@ -27,6 +27,23 @@ class UsuarioController extends Controller
         return view('administrador/menuAdministrador')->with(['usuarios' => $usuarios, 'neumaticos' => $neumaticos, 'repuestos' => $repuestos, 'usuario' => session()->get('nickName')]);
     }
 
+    public function vistaUsuario(){
+
+        $neumaticos = DB::table('Neumatico')->join('Sucursal', function ($join) {
+            $join->on('Neumatico.idSucursal', '=', 'Sucursal.idSucursal')
+                 ->where('Sucursal.nombre', '=', session()->get('sucursal'));
+        })
+        ->orderBy('id','desc')->paginate(10);
+
+        $repuestos = DB::table('Repuesto')->join('Sucursal', function ($join) {
+            $join->on('Repuesto.idSucursal', '=', 'Sucursal.idSucursal')
+                 ->where('Sucursal.nombre', '=', session()->get('sucursal'));
+        })
+        ->orderBy('id','desc')->paginate(10);
+
+        return view('usuario/menuUsuario')->with(['neumaticos' => $neumaticos, 'repuestos' => $repuestos]);
+    }
+
 	public function vistaAgregar(){
 
 		return view('usuario/agregarUsuario');
@@ -43,22 +60,42 @@ class UsuarioController extends Controller
 
         if($usuario){
 
-            $usuarios = Usuario::orderBy('id','desc')->paginate(10);
-            $neumaticos = Neumatico::orderBy('id','desc')->paginate(10);
-            $repuestos = Repuesto::orderBy('id','desc')->paginate(10);
-
             session()->put('nickName', $request -> usuario);
             session()->put('clave', $request -> clave);
 
-            return view('administrador/menuAdministrador')->with(['usuarios' => $usuarios, 'neumaticos' => $neumaticos, 'repuestos' => $repuestos, 'usuario' => $request -> usuario]);
+            if(strcmp($request -> sucursal, 'neumateca') == 0){
+
+                session()->put('sucursal', 'Neumateca');
+
+                if (strcmp($usuario -> nickName, 'Naga') == 0) {
+                    
+                    return redirect('/menuAdmin');
+                }else{
+
+                    return redirect('/menuUser');                        
+                }
+                    
+            }else{
+
+                if(strcmp($request -> sucursal, 'neumateca2') == 0){
+
+                    session()->put('sucursal', 'Neumateca2');
+
+                    if (strcmp($usuario -> nickName, 'Naga') == 0) {
+                    
+                        return redirect('/menuAdmin');
+                    }else{
+
+                        return redirect('/menuUser');                        
+                    }
+                }
+            }
+
 
         }else {
             
             return view('index');
         }
-        
-
-        return view('usuario/editarUsuario') -> with(['usuario' => $usuario]);
     }
 
     public function crear(Request $request){

@@ -19,38 +19,22 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('shortcodes/shortcodes.css') }}">
   <script languague="javascript">
 
-        function mostrarMantenedorUsuarios() {
-
-            usuarios = document.getElementById('usuarios');
-            neumaticos = document.getElementById('neumaticos');
-            repuestos =  document.getElementById('repuestos');
-
-            usuarios.style.display = '';
-            neumaticos.style.display = 'none';
-            repuestos.style.display = 'none';
-
-        }
-
         function mostrarMantenedorNeumaticos() {
 
-            usuarios = document.getElementById('usuarios');
             neumaticos = document.getElementById('neumaticos');
             repuestos =  document.getElementById('repuestos');
 
             neumaticos.style.display = '';
-            usuarios.style.display = 'none';
             repuestos.style.display = 'none';
 
         }
 
         function mostrarMantenedorRepuestos() {
 
-            usuarios = document.getElementById('usuarios');
             neumaticos = document.getElementById('neumaticos');
             repuestos =  document.getElementById('repuestos');
 
             repuestos.style.display = '';
-            usuarios.style.display = 'none';
             neumaticos.style.display = 'none';
 
         }
@@ -70,7 +54,7 @@
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
           <a class="nav-link" href="javascript:mostrarMantenedorUsuarios();">
-            <span class="nav-link-text">Usuarios</span>
+            <span class="nav-link-text">Venta</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
@@ -177,65 +161,18 @@
     </div>
   </nav>
   <div class="content-wrapper">
-
-    @if(session()->has('usuario'))
-
-      <div id="usuarios" class="container-fluid">
-
-    @else
-
-      <div id="usuarios" class="container-fluid" style="display:none;">
-
-    @endif
     
-      <!-- Example DataTables Card-->
-      <div class="card mb-3">
-        <div class="card-header"> Lista de Usuarios </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <a href="{{route('agregarUsuario_path')}}" class="btn btn-primary">Agregar un usuario</a>
-            <br>
-            <br>
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                <tr>
-                  <th scope="col">Rut Usuario</th>
-                  <th scope="col">Nombre Usuario</th>
-                  <th scope="col">Celular</th>
-                  <th scope="col">Direccion</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Opciones</th>
-                </tr>
-              </thead>
-
-            @foreach($usuarios as $usuario)
-
-             <tbody>
-                <tr>
-                  <td>{{$usuario->rutUsuario}}</td>
-                  <td>{{$usuario->nombreUsuario}}</td>
-                  <td>{{$usuario->celular}}</td>
-                  <td>{{$usuario->direccion}}</td>
-                  <td>{{$usuario->email}}</td>
-                  <td><a href="{{route('editarUsuario_path', ['usuario' => $usuario->id])}}" class="btn btn-primary">Editar</a>
-                    <form action="{{ route('eliminarUsuario_path', ['usuario' => $usuario->id]) }}" method="POST">
-
-                  {{csrf_field()}}
-                  {{method_field('DELETE')}}
-
-                  <button type="submit" class="btn btn-danger">Eliminar</button>
-
-                </form></td>
-                </tr>
-              </tbody>
-
-            @endforeach
-            </table>
-            {{$usuarios->render()}}
-          </div>
+    <nav class="navbar navbar-expand-lg" id="mainNav">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand">Productos</a>
         </div>
+        <ul class="nav navbar-nav">
+          <li><a href="javascript:mostrarMantenedorNeumaticos();">Neumaticos</a></li>
+          <li><a href="javascript:mostrarMantenedorRepuestos();">Repuestos</a></li>
+        </ul>
       </div>
-    </div>
+    </nav>
 
     @if(session()->has('neumatico'))
 
@@ -249,12 +186,9 @@
     
       <!-- Example DataTables Card-->
       <div class="card mb-3">
-        <div class="card-header"> Lista de Neumaticos </div>
+        <div class="card-header"> Lista de Neumaticos disponibles en la sucursal {{session()->get('sucursal')}}</div>
         <div class="card-body">
           <div class="table-responsive">
-            <a href="{{route('agregarNeumatico_path')}}" class="btn btn-primary">Agregar un neumatico</a>
-            <br>
-            <br>
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
@@ -278,15 +212,7 @@
                   <td>${{$neumatico->precioVenta}}</td>
                   <td>{{$neumatico->estado}}</td>
                   <td>{{$neumatico->stock}}</td>
-                  <td><a href="{{route('editarNeumatico_path', ['neumatico' => $neumatico->id])}}" class="btn btn-primary">Editar</a>
-                    <form action="{{ route('eliminarNeumatico_path', ['neumatico' => $neumatico->id]) }}" method="POST">
-
-                  {{csrf_field()}}
-                  {{method_field('DELETE')}}
-
-                  <button type="submit" class="btn btn-danger">Eliminar</button>
-
-                </form></td>
+                  <td><a href="" class="btn btn-primary">Agregar</a></td>
                 </tr>
               </tbody>
 
@@ -310,12 +236,9 @@
     
       <!-- Example DataTables Card-->
       <div class="card mb-3">
-        <div class="card-header"> Lista de Repuestos </div>
+        <div class="card-header"> Lista de Repuestos disponibles en la sucursal {{session()->get('sucursal')}}</div>
         <div class="card-body">
           <div class="table-responsive">
-            <a href="{{route('agregarRepuesto_path')}}" class="btn btn-primary">Agregar un repuesto</a>
-            <br>
-            <br>
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
@@ -335,15 +258,7 @@
                   <td>${{$repuesto->precioVenta}}</td>
                   <td>{{$repuesto->stock}}</td>
                   <td>{{$repuesto->estado}}</td>
-                  <td><a href="{{route('editarRepuesto_path', ['repuesto' => $repuesto->id])}}" class="btn btn-primary">Editar</a>
-                    <form action="{{ route('eliminarRepuesto_path', ['repuesto' => $repuesto->id]) }}" method="POST">
-
-                  {{csrf_field()}}
-                  {{method_field('DELETE')}}
-
-                  <button type="submit" class="btn btn-danger">Eliminar</button>
-
-                </form></td>
+                  <td><a href="" class="btn btn-primary">Agregar</a></td>
                 </tr>
               </tbody>
 
