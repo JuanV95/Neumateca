@@ -16,10 +16,10 @@
 			<label>Aro del neumatico</label>
 			<input type="number" name="aro" class="form-control" required>
 			<br>
-			<label>Id de la marca del neumatico</label>
+			<label>Marca del neumatico</label>
 			<input type="number" name="idMarcaNeumatico" class="form-control" required>
 			<br>
-			<label>Id de la sucursal donde se encuentra el neumatico</label>
+			<label>Sucursal donde se encuentra el neumatico</label>
 			<input type="number" name="idSucursal" class="form-control" required>
 			<br>
 			<label>Precio de venta del neumatico</label>

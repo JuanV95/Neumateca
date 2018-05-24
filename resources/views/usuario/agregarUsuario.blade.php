@@ -4,7 +4,7 @@
 
       <div class="card-header">Agregar Usuario</div>
       <div class="card-body">
-        <form action="/registrarUsuario" class="" method="POST">
+        <form action="/agregarUsuario" class="" method="POST">
           {{ csrf_field() }}
 
           <label>Rut usuario</label>
@@ -27,6 +27,12 @@
           <br>
           <label>Email del usuario</label>
           <input type="email" name="email" class="form-control" required>
+          <br>
+          <label>Tipo de usuario</label>
+          <select class="form-control" name="tipoUsuario">
+            <option value="0">Normal</option>
+            <option value="1">Administrador</option>
+          </select>
           <br>
           <br>
           <button type="submit" class="btn btn-primary">Agregar usuario</button>

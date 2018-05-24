@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Usuario;
 use App\Neumatico;
 use App\Repuesto;
+use App\Sucursal;
 use App\Http\Requests\AgregarUsuarioRequest;
 
 class UsuarioController extends Controller
@@ -14,34 +15,48 @@ class UsuarioController extends Controller
 
     public function vistaIndex(){
 
-        return view('index');
+        $sucursales = Sucursal::orderby('id','asc')->paginate(10);
+
+        return view('index')->with(['sucursales' => $sucursales]);
     }
 
     public function vistaAdministrador(){
 
-        $usuarios = Usuario::orderBy('id','desc')->paginate(10);
-        $neumaticos = Neumatico::orderBy('id','desc')->paginate(10);
-        $repuestos = Repuesto::orderBy('id','desc')->paginate(10);
+        if(session()->get('nickName')){
 
+            $usuarios = Usuario::orderBy('id','desc')->paginate(10);
+            $neumaticos = Neumatico::orderBy('id','desc')->paginate(10);
+            $repuestos = Repuesto::orderBy('id','desc')->paginate(10);
+            $sucursales = Sucursal::orderby('id','asc')->paginate(10);
 
-        return view('administrador/menuAdministrador')->with(['usuarios' => $usuarios, 'neumaticos' => $neumaticos, 'repuestos' => $repuestos, 'usuario' => session()->get('nickName')]);
+            return view('administrador/menuAdministrador')->with(['usuarios' => $usuarios, 'neumaticos' => $neumaticos, 'repuestos' => $repuestos, 'usuario' => session()->get('nickName'), 'sucursales' => $sucursales]);
+        }else{
+
+            return redirect('/');            
+        }
     }
 
     public function vistaUsuario(){
+            
+        if(session()->get('nickName')){
+            
+            $neumaticos = DB::table('Neumatico')->join('Sucursal', function ($join) {
+                $join->on('Neumatico.idSucursal', '=', 'Sucursal.id')
+                     ->where('Sucursal.nombre', '=', session()->get('sucursal'));
+            })
+            ->orderBy('Neumatico.id','desc')->paginate(10);
 
-        $neumaticos = DB::table('Neumatico')->join('Sucursal', function ($join) {
-            $join->on('Neumatico.idSucursal', '=', 'Sucursal.idSucursal')
-                 ->where('Sucursal.nombre', '=', session()->get('sucursal'));
-        })
-        ->orderBy('id','desc')->paginate(10);
+            $repuestos = DB::table('Repuesto')->join('Sucursal', function ($join) {
+                $join->on('Repuesto.idSucursal', '=', 'Sucursal.id')
+                     ->where('Sucursal.nombre', '=', session()->get('sucursal'));
+            })
+            ->orderBy('Repuesto.id','desc')->paginate(10);
 
-        $repuestos = DB::table('Repuesto')->join('Sucursal', function ($join) {
-            $join->on('Repuesto.idSucursal', '=', 'Sucursal.idSucursal')
-                 ->where('Sucursal.nombre', '=', session()->get('sucursal'));
-        })
-        ->orderBy('id','desc')->paginate(10);
+            return view('usuario/menuUsuario')->with(['neumaticos' => $neumaticos, 'repuestos' => $repuestos]);  
+        }else{
 
-        return view('usuario/menuUsuario')->with(['neumaticos' => $neumaticos, 'repuestos' => $repuestos]);
+            return redirect('/');            
+        }             
     }
 
 	public function vistaAgregar(){
@@ -63,7 +78,7 @@ class UsuarioController extends Controller
             session()->put('nickName', $request -> usuario);
             session()->put('clave', $request -> clave);
 
-            if(strcmp($request -> sucursal, 'neumateca') == 0){
+            if(strcmp($request -> sucursal, 'Neumateca') == 0){
 
                 session()->put('sucursal', 'Neumateca');
 
@@ -77,9 +92,9 @@ class UsuarioController extends Controller
                     
             }else{
 
-                if(strcmp($request -> sucursal, 'neumateca2') == 0){
+                if(strcmp($request -> sucursal, 'Lubriteca') == 0){
 
-                    session()->put('sucursal', 'Neumateca2');
+                    session()->put('sucursal', 'Lubriteca');
 
                     if (strcmp($usuario -> nickName, 'Naga') == 0) {
                     
@@ -94,7 +109,7 @@ class UsuarioController extends Controller
 
         }else {
             
-            return view('index');
+            return redirect('/');
         }
     }
 
@@ -109,6 +124,7 @@ class UsuarioController extends Controller
     	$usuario -> celular = $request -> celular;
     	$usuario -> direccion = $request -> direccion;
     	$usuario -> email = $request -> email;
+        $usuario -> tipoUsuario = $request -> tipoUsuario;
 
     	$usuario -> save();
 
@@ -143,6 +159,13 @@ class UsuarioController extends Controller
 
         return redirect('/menuAdmin');
 
+    }
+
+    public function cerrarSesion(){
+
+        session()->flush();
+
+        return redirect('/');
     }
 
 }

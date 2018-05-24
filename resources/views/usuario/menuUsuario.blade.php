@@ -26,6 +26,7 @@
 
             neumaticos.style.display = '';
             repuestos.style.display = 'none';
+            neumaticosCarro.style.display = 'none';
 
         }
 
@@ -35,6 +36,18 @@
             repuestos =  document.getElementById('repuestos');
 
             repuestos.style.display = '';
+            neumaticos.style.display = 'none';
+            neumaticosCarro.style.display = 'none';
+        }
+
+        function mostrarMantenedorCarro() {
+
+            neumaticos = document.getElementById('neumaticos');
+            repuestos =  document.getElementById('repuestos');
+            neumaticosCarro = document.getElementById('neumaticosCarro');
+
+            neumaticosCarro.style.display = '';
+            repuestos.style.display = 'none';
             neumaticos.style.display = 'none';
 
         }
@@ -52,19 +65,24 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="javascript:mostrarMantenedorUsuarios();">
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+            <i class="fa fa-money"></i>
             <span class="nav-link-text">Venta</span>
           </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents">
+            <li>
+              <a href="javascript:mostrarMantenedorNeumaticos();">Neumaticos</a>
+            </li>
+            <li>
+              <a href="javascript:mostrarMantenedorRepuestos();">Repuestos</a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-          <a class="nav-link" href="javascript:mostrarMantenedorNeumaticos();">
-            <span class="nav-link-text">Neumaticos</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="javascript:mostrarMantenedorRepuestos();">
-            <span class="nav-link-text">Repuestos</span>
+          <a class="nav-link" href="">
+            <i class="fa fa-cart-arrow-down"></i>
+            <span class="nav-link-text">Carro</span>
           </a>
         </li>
       </ul>
@@ -161,18 +179,6 @@
     </div>
   </nav>
   <div class="content-wrapper">
-    
-    <nav class="navbar navbar-expand-lg" id="mainNav">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand">Productos</a>
-        </div>
-        <ul class="nav navbar-nav">
-          <li><a href="javascript:mostrarMantenedorNeumaticos();">Neumaticos</a></li>
-          <li><a href="javascript:mostrarMantenedorRepuestos();">Repuestos</a></li>
-        </ul>
-      </div>
-    </nav>
 
     @if(session()->has('neumatico'))
 
@@ -189,7 +195,7 @@
         <div class="card-header"> Lista de Neumaticos disponibles en la sucursal {{session()->get('sucursal')}}</div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="neumaticostb" width="100%" cellspacing="0">
               <thead>
                 <tr>
                   <th scope="col">Ancho</th>
@@ -212,7 +218,7 @@
                   <td>${{$neumatico->precioVenta}}</td>
                   <td>{{$neumatico->estado}}</td>
                   <td>{{$neumatico->stock}}</td>
-                  <td><a href="" class="btn btn-primary">Agregar</a></td>
+                  <td><a href="{{route('agregarNeumaticoCarro_path', ['neumatico' => $neumatico->id])}}" class="btn btn-primary">Agregar</a></td>
                 </tr>
               </tbody>
 
@@ -239,14 +245,14 @@
         <div class="card-header"> Lista de Repuestos disponibles en la sucursal {{session()->get('sucursal')}}</div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="repuestostb" width="100%" cellspacing="0">
               <thead>
                 <tr>
-                  <th scope="col">Descripcion</th>
-                  <th scope="col">Precio</th>
-                  <th scope="col">Stock</th>
-                  <th scope="col">Estado</th>
-                  <th scope="col">Opciones</th>
+                  <th>Descripcion</th>
+                  <th>Precio</th>
+                  <th>Stock</th>
+                  <th>Estado</th>
+                  <th>Opciones</th>
                 </tr>
               </thead>
 
@@ -296,7 +302,7 @@
           <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="{{route('index_path')}}">Cerrar sesion</a>
+            <a class="btn btn-primary" href="{{route('cerrarSesion_path')}}">Cerrar sesion</a>
           </div>
         </div>
       </div>
@@ -313,6 +319,16 @@
     <script src="js/sb-admin.min.js"></script>
     <!-- Custom scripts for this page-->
     <script src="js/sb-admin-datatables.min.js"></script>
+    <script>
+      $(document).ready( function () {
+      $('#neumaticostb').DataTable();
+      } );
+    </script> 
+     <script>
+      $(document).ready( function () {
+      $('#repuestostb').DataTable();
+      } );
+    </script> 
   </div>
 </body>
 

@@ -24,10 +24,12 @@
             usuarios = document.getElementById('usuarios');
             neumaticos = document.getElementById('neumaticos');
             repuestos =  document.getElementById('repuestos');
+            sucursales =  document.getElementById('sucursales');
 
             usuarios.style.display = '';
             neumaticos.style.display = 'none';
             repuestos.style.display = 'none';
+            sucursales.style.display = 'none';
 
         }
 
@@ -36,10 +38,12 @@
             usuarios = document.getElementById('usuarios');
             neumaticos = document.getElementById('neumaticos');
             repuestos =  document.getElementById('repuestos');
+            sucursales =  document.getElementById('sucursales');
 
             neumaticos.style.display = '';
             usuarios.style.display = 'none';
             repuestos.style.display = 'none';
+            sucursales.style.display = 'none';
 
         }
 
@@ -48,10 +52,26 @@
             usuarios = document.getElementById('usuarios');
             neumaticos = document.getElementById('neumaticos');
             repuestos =  document.getElementById('repuestos');
+            sucursales =  document.getElementById('sucursales');
 
             repuestos.style.display = '';
             usuarios.style.display = 'none';
             neumaticos.style.display = 'none';
+            sucursales.style.display = 'none';
+
+        }
+
+        function mostrarMantenedorSucursales() {
+
+            usuarios = document.getElementById('usuarios');
+            neumaticos = document.getElementById('neumaticos');
+            repuestos =  document.getElementById('repuestos');
+            sucursales =  document.getElementById('sucursales');
+
+            sucursales.style.display = '';
+            usuarios.style.display = 'none';
+            neumaticos.style.display = 'none';
+            repuestos.style.display = 'none';
 
         }
 
@@ -68,19 +88,42 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="javascript:mostrarMantenedorUsuarios();">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+            <i class="fa fa-group"></i>
             <span class="nav-link-text">Usuarios</span>
           </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents">
+            <li>
+              <a href="javascript:mostrarMantenedorUsuarios();">Usuario del sistema</a>
+            </li>
+            <li>
+              <a >Administrador</a>
+            </li>
+            <li>
+              <a >Mecanico</a>
+            </li>
+            <li>
+              <a >Cliente</a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
           <a class="nav-link" href="javascript:mostrarMantenedorNeumaticos();">
+            <i class="fa fa-support"></i>
             <span class="nav-link-text">Neumaticos</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
           <a class="nav-link" href="javascript:mostrarMantenedorRepuestos();">
+            <i class="fa fa-wrench"></i>
             <span class="nav-link-text">Repuestos</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+          <a class="nav-link" href="javascript:mostrarMantenedorSucursales();">
+            <i class="fa fa-home"></i>
+            <span class="nav-link-text">Sucursales</span>
           </a>
         </li>
       </ul>
@@ -355,6 +398,62 @@
       </div>
     </div>
 
+    @if(session()->has('sucursales'))
+
+      <div id="sucursales" class="container-fluid">
+
+    @else
+
+      <div id="sucursales" class="container-fluid" style="display:none;">
+
+    @endif
+    
+      <!-- Example DataTables Card-->
+      <div class="card mb-3">
+        <div class="card-header"> Lista de Sucursales </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <a href="{{route('agregarSucursal_path')}}" class="btn btn-primary">Agregar una sucursal</a>
+            <br>
+            <br>
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Direccion</th>
+                  <th scope="col">Telefono</th>
+                  <th scope="col">Opciones</th>
+                </tr>
+              </thead>
+
+            @foreach($sucursales as $sucursal)
+
+             <tbody>
+                <tr>
+                  <td>{{$sucursal->nombre}}</td>
+                  <td>{{$sucursal->direccion}}</td>
+                  <td>{{$sucursal->telefono}}</td>
+                  <td><a href="{{route('editarSucursal_path', ['sucursal' => $sucursal->id])}}" class="btn btn-primary">Editar</a>
+                    <form action="{{ route('eliminarSucursal_path', ['sucursal' => $sucursal->id]) }}" method="POST">
+
+                  {{csrf_field()}}
+                  {{method_field('DELETE')}}
+
+                  <button type="submit" class="btn btn-danger">Eliminar</button>
+
+                </form></td>
+                </tr>
+              </tbody>
+
+            @endforeach
+            </table>
+            {{$sucursales->render()}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
     <footer class="sticky-footer">
@@ -381,7 +480,7 @@
           <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="{{route('index_path')}}">Cerrar sesion</a>
+            <a class="btn btn-primary" href="{{route('cerrarSesion_path')}}">Cerrar sesion</a>
           </div>
         </div>
       </div>

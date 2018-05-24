@@ -50,6 +50,7 @@ class LoginController extends Controller
         $usuario -> celular = $request -> celular;
         $usuario -> direccion = $request -> direccion;
         $usuario -> email = $request -> email;
+        $usuario -> tipoUsuario = $request -> tipoUsuario;
 
         $usuario -> save();
 

@@ -114,17 +114,18 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                   <label>Nombre de usuario</label>
-                  <input class="form-control" name="usuario" aria-describedby="emailHelp" placeholder="Enter email"required>
+                  <input class="form-control" name="usuario" aria-describedby="emailHelp" placeholder="Ingrese su nombre de usuario"required>
                 </div>
                 <div class="form-group">
                   <label>Contraseña</label>
-                  <input class="form-control" name="clave" type="password" placeholder="Password" required>
+                  <input class="form-control" name="clave" type="password" placeholder="Ingrese su contraseña" required>
                 </div>
                 <div class="form-group">
                   <label>Sucursal</label>
                   <select class="form-control" placeholder="Sucursal" name="sucursal">
-                    <option value="neumateca">Neumateca</option>
-                    <option value="neumateca2">Neumateca2</option>
+                    @foreach ($sucursales as $sucursal)
+                      <option value="{{ $sucursal->nombre }}">{{ $sucursal->nombre }}</option>
+                    @endforeach
                   </select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Iniciar sesion</a>
